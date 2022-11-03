@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+      </head>
+<body>
+<script>
+function create(){
+            
+            var modal=document.getElementById("onpage");
+            modal.innerHTML="<form method='POST' action='/create'><h5>Add Product</h5><br><span>Name</span> <input type='text' class='form-control' name='name' id='name' placeholder='Name of product'><br><span>Price</span> <input type='text' class='form-control' name='price' id='price' placeholder='Price of product'><br><span>Quantity</span> <input type='text' class='form-control' name='quantity' id='quantity' placeholder='Quantity of product'><br><input type='submit' class='btn btn-primary' value='Add'></form>";
+            var button=document.getElementById("modalbutton").click();
+        }
+
+
+function edit(product){
+    var product_data=product.slice(1,-1)
+    var product_data=product_data.split(',');
+    var modal=document.getElementById("onpage");
+    modal.innerHTML="<form method='POST' action='/edit'><input type='hidden' value="+product_data[0]+" name='id_value'><h5>Edit Product</h5><br><span>Name</span><input type='text' class='form-control' name='name' value="+product_data[1]+" id='name' placeholder='Name of product'><br><span>Price</span> <input type='text' class='form-control' name='price' value="+product_data[2]+" id='price' placeholder='Price of product'><br><span>Quantity</span> <input type='text' class='form-control' name='quantity' value="+product_data[3]+" id='quantity' placeholder='Quantity of product'><br><input type='submit' class='btn btn-primary' value='Edit'></form>";
+    var button=document.getElementById("modalbutton").click();
+
+}
+            
+</script>
+
+
+    <!---------navigation bar---------------------------------------------------------------------------------->
+    <nav class="navbar navbar-light bg-light">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <b class="p-1 mx-4 text-left">Assist 2 Path Tech Assignment</b>
+            </li>
+        </ul>
+    </nav>
+ <!--------------------------------------------------------------------------------------------------------->
+   
+ 
+ <div class="container m-3 p-5">
+    <p>*To bring back all product click on search button with empty text in search button</p>
+    <form method="POST" action="/search">  
+       
+        <div class="row p-2">
+            <div class="col-5">
+                 <input type="text" class="form-control" name="search_data" id="search_data" placeholder="Search for product">
+            </div>
+            <div class="col-3">
+                 <input type="submit" value="Search"  class="btn btn-primary form-control">
+            </div>
+            <div class="col-4">
+                <input type="button" value="Create" onclick="create()" class="btn btn-primary form-control">
+           </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead  class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for index in range(product|length) %}
+          <tr>
+            <th scope="row">{{index}}</th>
+            <td>{{product[index][1]}}</td>
+            <td>{{product[index][2]}}</td>
+            <td>{{product[index][3]}}</td>
+            <td><button value='{{product[index]}}'' onclick="edit(this.value)" class="btn btn-primary"  id="edit_data">Edit</button></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+ </div>
+
+ 
+ <button type="button" id="modalbutton" data-bs-toggle="modal" data-bs-target="#exampleModal" hidden></button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body" id="onpage">
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+<form id="form1">
+</form>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+</body>
+</html>
